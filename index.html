@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Тест</title>
+<style>
+  body { margin: 0; font: 18px/1.5 system-ui, sans-serif; background: #f4f4f4; color: #111; }
+  main { max-width: 640px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 32px; margin: 0 0 8px; }
+  #status { padding: 14px 16px; border-radius: 10px; background: #fff3cd; font-weight: 600; }
+  #status.ok { background: #d4edda; }
+  #status.bad { background: #f8d7da; }
+  img { width: 100%; height: auto; display: block; margin-top: 16px; border-radius: 10px; background: #ddd; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Тест</h1>
+  <p>Если ты видишь этот текст — страница открылась.</p>
+  <p id="status">Загружаю картинку…</p>
+  <img id="pic" src="big.jpg?v=1" alt="">
+</main>
+<script>
+  var t0 = Date.now(), s = document.getElementById('status'), img = document.getElementById('pic');
+  function done(ok) {
+    var sec = ((Date.now() - t0) / 1000).toFixed(1);
+    s.className = ok ? 'ok' : 'bad';
+    s.textContent = ok ? 'Картинка загрузилась за ' + sec + ' сек — всё работает.'
+                       : 'Картинка не загрузилась (' + sec + ' сек).';
+  }
+  if (img.complete && img.naturalWidth) done(true);
+  img.onload = function () { done(true); };
+  img.onerror = function () { done(false); };
+  setTimeout(function () { if (!s.className) s.textContent = 'Картинка грузится уже больше 15 секунд — похоже, тормозит.'; }, 15000);
+</script>
+</body>
+</html>
